@@ -14,6 +14,9 @@ codelab.
 * [Testing in Jetpack Compose codelab](http://developer.android.com/codelabs/jetpack-compose-testing)
 * [Composables individually testable](http://developer.android.com/jetpack/compose/navigation#testing)
 * [Test Navigation](http://developer.android.com/guide/navigation/navigation-testing)
+* [Bottom Nav Bar Integration](http://developer.android.com/jetpack/compose/navigation#bottom-nav)
+* [Nested Graphs](http://developer.android.com/jetpack/compose/navigation#nested-nav)
+* [Now in Android](http://github.com/android/nowinandroid)
 
 ## License
 ```
