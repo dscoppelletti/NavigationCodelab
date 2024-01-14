@@ -10,6 +10,10 @@ codelab.
 * [Supporting multiple backstack](http://developer.android.com/guide/navigation/multi-back-stacks)
 * [Deep links](http://developer.android.com/jetpack/compose/navigation#deeplinks)
 * [Implicit deep links](http://developer.android.com/guide/navigation/navigation-deep-link#implicit)
+* [Compose Testing](http://developer.android.com/jetpack/compose/testing)
+* [Testing in Jetpack Compose codelab](http://developer.android.com/codelabs/jetpack-compose-testing)
+* [Composables individually testable](http://developer.android.com/jetpack/compose/navigation#testing)
+* [Test Navigation](http://developer.android.com/guide/navigation/navigation-testing)
 
 ## License
 ```
