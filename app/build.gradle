@@ -95,6 +95,9 @@ dependencies {
     implementation "androidx.compose.material:material"
     implementation "androidx.compose.material:material-icons-extended"
     implementation "androidx.activity:activity-compose:1.8.2"
+    /* BEGIN-4.1 - Add the Navigation dependency */
+    implementation "androidx.navigation:navigation-compose:2.7.6"
+    /* END-4.1 */
     debugImplementation "androidx.compose.ui:ui-tooling"
 
     // Testing dependencies
