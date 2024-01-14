@@ -7,6 +7,7 @@ codelab.
 ## References
 
 * [Navigation](http://developer.android.com/guide/navigation)
+* [Supporting multiple backstack](http://developer.android.com/guide/navigation/multi-back-stacks)
 
 ## License
 ```

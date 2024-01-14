@@ -23,12 +23,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.rally.ui.components.RallyTabRow
 import com.example.compose.rally.ui.theme.RallyTheme
@@ -49,8 +49,6 @@ class RallyActivity : ComponentActivity() {
 @Composable
 fun RallyApp() {
     RallyTheme {
-        var currentScreen: RallyDestination by
-            remember { mutableStateOf(Overview) }
         /* BEGIN-4.2 - Set up the NavController */
         // The NavController is the central component when using Navigation in
         // Compose. It keeps track of back stack composable entries, moves the
@@ -66,11 +64,36 @@ fun RallyApp() {
         // between composable screens and maintaining the back stack.
         val navController = rememberNavController()
         /* END-4.2 */
+        /* BEGIN-5.3 - Fixing the tab UI */
+        val currentBackStack by navController.currentBackStackEntryAsState()
+        // Fetch your currentDestination:
+        val currentDestination = currentBackStack?.destination
+        // var currentScreen: RallyDestination by
+        //    remember { mutableStateOf(Overview) }
+        // Change the variable to this and use Overview as a backup screen if
+        // this returns null
+        val currentScreen = rallyTabRowScreens.find {
+            it.route == currentDestination?.route
+        } ?: Overview
+        /* END-5.3 */
         Scaffold(
             topBar = {
                 RallyTabRow(
                     allScreens = rallyTabRowScreens,
-                    onTabSelected = { screen -> currentScreen = screen },
+                    /* BEGIN-5 - Integrate RallyTabRow with navigation */
+                    // To make your code testable and reusable, it is advised
+                    // not to pass the entire navController to your composables
+                    // directly. Instead, you should always provide callbacks
+                    // that define the exact navigation actions you wish to
+                    // trigger.
+                    // onTabSelected = { screen -> currentScreen = screen },
+                    onTabSelected = { newScreen ->
+                        /* BEGIN-5.1 - Launching a single copy of a destination */
+                        // navController.navigate(newScreen.route)
+                        navController.navigateSingleTopTo(newScreen.route)
+                        /* END-5.1 */
+                    },
+                    /* END-5 */
                     currentScreen = currentScreen
                 )
             }
@@ -122,3 +145,26 @@ fun RallyApp() {
         }
     }
 }
+
+/* BEGIN-5.1 - Launching a single copy of a destination */
+fun NavHostController.navigateSingleTopTo(route: String) =
+    this.navigate(route) {
+        /* BEGIN-5.2 - Controlling the navigation options and back stack
+        state */
+        // Pop up to the start destination of the graph to avoid building up a
+        // large stack of destinations on the back stack as you select tabs
+        popUpTo(
+            this@navigateSingleTopTo.graph.findStartDestination().id
+        ) {
+            saveState = true
+        }
+        // Determines whether this navigation action should restore any state
+        // previously saved by PopUpToBuilder.saveState or the popUpToSaveState
+        // attribute.
+        restoreState = true
+        /* END-5.2 */
+        // Make sure there will be at most one copy of a given destination on
+        // the top of the back stack
+        launchSingleTop = true
+    }
+/* END-5.1 */
