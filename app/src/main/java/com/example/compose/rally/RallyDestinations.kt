@@ -22,6 +22,8 @@ import androidx.compose.material.icons.filled.Money
 import androidx.compose.material.icons.filled.MoneyOff
 import androidx.compose.material.icons.filled.PieChart
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 
 /**
  * Contract for information needed on every Rally navigation destination
@@ -82,6 +84,12 @@ object SingleAccount : RallyDestination {
     // override val screen: @Composable () -> Unit = { SingleAccountScreen() }
     /* END-6 */
     const val accountTypeArg = "account_type"
+    /* BEGIN-7.1 - Set up the SingleAccountScreen landing destination */
+    val routeWithArgs = "${route}/{${accountTypeArg}}"
+    val arguments = listOf(
+        navArgument(accountTypeArg) { type = NavType.StringType }
+    )
+    /* END-7.1 */
 }
 
 // Screens to be displayed in the top RallyTabRow

@@ -31,6 +31,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.rally.ui.accounts.AccountsScreen
+import com.example.compose.rally.ui.accounts.SingleAccountScreen
 import com.example.compose.rally.ui.bills.BillsScreen
 import com.example.compose.rally.ui.components.RallyTabRow
 import com.example.compose.rally.ui.overview.OverviewScreen
@@ -154,15 +155,69 @@ fun RallyApp() {
                             navController.navigateSingleTopTo(Bills.route)
                         }
                         /* END-6.1 */
+                        /* BEGIN-7.2 - Setup the Accounts and Overview starting
+                        destinations */
+                        , onAccountClick = { accountType ->
+                            navController.navigateToSingleAccount(accountType)
+                        }
+                        /* END-7.2 */
                     )
                 }
                 composable(route = Accounts.route) {
-                    AccountsScreen()
+                    AccountsScreen(
+                        /* BEGIN-7.2 - Setup the Accounts and Overview starting
+                        destinations */
+                        onAccountClick = { accountType ->
+                            navController.navigateToSingleAccount(accountType)
+                        }
+                        /* END-7.2 */
+                    )
                 }
                 composable(route = Bills.route) {
                     BillsScreen()
                 }
                 /* END-6 */
+                /* BEGIN-7 - Navigating to SingleAccountScreen with arguments */
+                composable(
+                    /* BEGIN-7.1 - Set up the SingleAccountScreen landing
+                    destination */
+                    // When you land on SingleAccountScreen, this destination
+                    // would require additional information to know which exact
+                    // account type it should display when opened. We can use
+                    // arguments to pass this kind of information. You need to
+                    // specify that its route additionally requires an argument
+                    // {account_type}.
+                    // To pass the argument alongside your route when
+                    // navigating, you need to append them together, following a
+                    // pattern: "route/{argument}"
+                    route = SingleAccount.routeWithArgs,
+                    // You could define as many arguments as you need, as the
+                    // composable function by default accepts a list of
+                    // arguments. In your case, you just need to add a single
+                    // one called accountTypeArg and add some additional safety
+                    // by specifying it as type String.
+                    arguments = SingleAccount.arguments
+                    /* END-7.1 */
+                ) { navBackStackEntry ->
+                    /* BEGIN-7.1 - Set up the SingleAccountScreen landing
+                    destination */
+                    // Each NavHost composable function has access to the
+                    // current NavBackStackEntry - a class which holds the
+                    // information on the current route and passed arguments of
+                    // an entry in the back stack. You can use this to get the
+                    // required arguments list from navBackStackEntry and then
+                    // search and retrieve the exact argument you need, to pass
+                    // it down further to your composable screen.
+                    // SingleAccountScreen()
+                    // Retrieve the passed argument
+                    val accountType =
+                        navBackStackEntry.arguments?.getString(SingleAccount.accountTypeArg)
+
+                    // Pass accountType to SingleAccountScreen
+                    SingleAccountScreen(accountType)
+                    /* END-7.1 */
+                }
+                /* END-7 */
             }
             /* END-4.4 */
         }
@@ -191,3 +246,9 @@ fun NavHostController.navigateSingleTopTo(route: String) =
         launchSingleTop = true
     }
 /* END-5.1 */
+
+/* BEGIN-7.2 - Setup the Accounts and Overview starting destinations */
+private fun NavHostController.navigateToSingleAccount(accountType: String) {
+    this.navigateSingleTopTo("${SingleAccount.route}/$accountType")
+}
+/* END-7.2 */
