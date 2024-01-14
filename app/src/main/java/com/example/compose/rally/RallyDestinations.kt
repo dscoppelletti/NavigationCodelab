@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.PieChart
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 
 /**
  * Contract for information needed on every Rally navigation destination
@@ -90,6 +91,11 @@ object SingleAccount : RallyDestination {
         navArgument(accountTypeArg) { type = NavType.StringType }
     )
     /* END-7.1 */
+    /* BEGIN-8.1 - Trigger and verify the deep link */
+    val deepLinks = listOf(
+        navDeepLink { uriPattern = "rally://$route/{$accountTypeArg}"}
+    )
+    /* END-8.1 */
 }
 
 // Screens to be displayed in the top RallyTabRow

@@ -8,6 +8,8 @@ codelab.
 
 * [Navigation](http://developer.android.com/guide/navigation)
 * [Supporting multiple backstack](http://developer.android.com/guide/navigation/multi-back-stacks)
+* [Deep links](http://developer.android.com/jetpack/compose/navigation#deeplinks)
+* [Implicit deep links](http://developer.android.com/guide/navigation/navigation-deep-link#implicit)
 
 ## License
 ```

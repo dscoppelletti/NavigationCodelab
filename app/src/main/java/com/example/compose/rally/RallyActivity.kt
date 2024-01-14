@@ -198,6 +198,9 @@ fun RallyApp() {
                     // by specifying it as type String.
                     arguments = SingleAccount.arguments
                     /* END-7.1 */
+                    /* BEGIN-8.1 - Trigger and verify the deep link */
+                    , deepLinks = SingleAccount.deepLinks
+                    /* END-8.1 */
                 ) { navBackStackEntry ->
                     /* BEGIN-7.1 - Set up the SingleAccountScreen landing
                     destination */

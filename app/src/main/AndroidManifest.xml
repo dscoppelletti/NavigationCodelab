@@ -28,9 +28,23 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!-- BEGIN-8 - Enable deep link support -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- The data tag adds a scheme (rally - name of your app) and
+                host (single_account - route to your composable) to define your
+                precise deep link. This will give you rally://single_account as
+                the deep link URL.
+                Note that you don't need to declare the account_type argument in
+                the AndroidManifest. This will be appended later inside the
+                NavHost composable function. -->
+                <data android:scheme="rally" android:host="single_account" />
+            </intent-filter>
+            <!-- END-8 -->
         </activity>
     </application>
 </manifest>
