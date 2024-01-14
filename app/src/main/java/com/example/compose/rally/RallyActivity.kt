@@ -30,7 +30,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.compose.rally.ui.accounts.AccountsScreen
+import com.example.compose.rally.ui.bills.BillsScreen
 import com.example.compose.rally.ui.components.RallyTabRow
+import com.example.compose.rally.ui.overview.OverviewScreen
 import com.example.compose.rally.ui.theme.RallyTheme
 
 /**
@@ -129,17 +132,37 @@ fun RallyApp() {
                 // that leads to a specific destination. Each destination must
                 // have a unique route.
                 /* END-4.3 */
+                /* BEGIN-6 - Extracting screen composables from RallyDestinations */
                 /* BEGIN-4.5 - Adding destinations to the NavGraph */
+//                composable(route = Overview.route) {
+//                    Overview.screen()
+//                }
+//                composable(route = Accounts.route) {
+//                    Accounts.screen()
+//                }
+//                composable(route = Bills.route) {
+//                    Bills.screen()
+//                }
+                /* END-4.5 */
                 composable(route = Overview.route) {
-                    Overview.screen()
+                    OverviewScreen(
+                        /* BEGIN-6.1 - Enable clicks on OverviewScreen */
+                        onClickSeeAllAccounts = {
+                            navController.navigateSingleTopTo(Accounts.route)
+                        },
+                        onClickSeeAllBills = {
+                            navController.navigateSingleTopTo(Bills.route)
+                        }
+                        /* END-6.1 */
+                    )
                 }
                 composable(route = Accounts.route) {
-                    Accounts.screen()
+                    AccountsScreen()
                 }
                 composable(route = Bills.route) {
-                    Bills.screen()
+                    BillsScreen()
                 }
-                /* END-4.5 */
+                /* END-6 */
             }
             /* END-4.4 */
         }

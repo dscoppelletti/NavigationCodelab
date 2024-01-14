@@ -21,12 +21,7 @@ import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.Money
 import androidx.compose.material.icons.filled.MoneyOff
 import androidx.compose.material.icons.filled.PieChart
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.example.compose.rally.ui.accounts.AccountsScreen
-import com.example.compose.rally.ui.accounts.SingleAccountScreen
-import com.example.compose.rally.ui.bills.BillsScreen
-import com.example.compose.rally.ui.overview.OverviewScreen
 
 /**
  * Contract for information needed on every Rally navigation destination
@@ -34,7 +29,21 @@ import com.example.compose.rally.ui.overview.OverviewScreen
 interface RallyDestination {
     val icon: ImageVector
     val route: String
-    val screen: @Composable () -> Unit
+    /* BEGIN-6 - Extracting screen composables from RallyDestinations */
+    // Until now, for simplicity, we were using the screen property from the
+    // RallyDestination interface and the screen objects extending from it, to
+    // add the composable UI in the NavHost.
+    // However, the following steps in this codelab require passing additional
+    // information to your composable screens directly. In a production
+    // environment, there will certainly be even more data that would need to be
+    // passed.
+    // The correct- and cleaner!- way of achieving this would be to add the
+    // composables directly in the NavHost navigation graph and extract them
+    // from the RallyDestination. After that, RallyDestination and the screen
+    // objects would only hold navigation-specific information, like the icon
+    // and route, and would be decoupled from anything Compose UI related.
+    // val screen: @Composable () -> Unit
+    /* END-6 */
 }
 
 /**
@@ -43,19 +52,25 @@ interface RallyDestination {
 object Overview : RallyDestination {
     override val icon = Icons.Filled.PieChart
     override val route = "overview"
-    override val screen: @Composable () -> Unit = { OverviewScreen() }
+    /* BEGIN-6 - Extracting screen composables from RallyDestinations */
+    // override val screen: @Composable () -> Unit = { OverviewScreen() }
+    /* END-6 */
 }
 
 object Accounts : RallyDestination {
     override val icon = Icons.Filled.AttachMoney
     override val route = "accounts"
-    override val screen: @Composable () -> Unit = { AccountsScreen() }
+    /* BEGIN-6 - Extracting screen composables from RallyDestinations */
+    // override val screen: @Composable () -> Unit = { AccountsScreen() }
+    /* END-6 */
 }
 
 object Bills : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "bills"
-    override val screen: @Composable () -> Unit = { BillsScreen() }
+    /* BEGIN-6 - Extracting screen composables from RallyDestinations */
+    // override val screen: @Composable () -> Unit = { BillsScreen() }
+    /* END-6 */
 }
 
 object SingleAccount : RallyDestination {
@@ -63,9 +78,12 @@ object SingleAccount : RallyDestination {
     // part of the RallyTabRow selection
     override val icon = Icons.Filled.Money
     override val route = "single_account"
-    override val screen: @Composable () -> Unit = { SingleAccountScreen() }
+    /* BEGIN-6 - Extracting screen composables from RallyDestinations */
+    // override val screen: @Composable () -> Unit = { SingleAccountScreen() }
+    /* END-6 */
     const val accountTypeArg = "account_type"
 }
 
 // Screens to be displayed in the top RallyTabRow
 val rallyTabRowScreens = listOf(Overview, Accounts, Bills)
+

@@ -60,6 +60,14 @@ import java.util.Locale
 
 @Composable
 fun OverviewScreen(
+    /* BEGIN-6.1 - Enable clicks on OverviewScreen */
+    // Keeping the navController at the top level of your navigation hierarchy
+    // and hoisted to the level of your App composable (instead of passing it
+    // directly into, for example, OverviewScreen) makes it easy to preview,
+    // reuse and test OverviewScreen composable in isolation – without having to
+    // rely on an actual or mocked navController instances. Passing callbacks
+    // instead also allows quick changes to your click events!
+    /* END-6.1 */
     onClickSeeAllAccounts: () -> Unit = {},
     onClickSeeAllBills: () -> Unit = {},
     onAccountClick: (String) -> Unit = {},
